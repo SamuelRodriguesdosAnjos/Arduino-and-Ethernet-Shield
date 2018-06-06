@@ -2,6 +2,10 @@
 
 Usando Arduino com Ethernet Shield 5100/5500 V2
 
+https://store.arduino.cc/usa/arduino-uno-rev3
+
+https://store.arduino.cc/usa/arduino-ethernet-shield-2
+
 # Para usar o shield de ethernet com o arduino, vamos precisar de algumas bibliotecas: 
 
 Ethernet.h para o modelo 5100 V1

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Teste Controle LEDS - Arduino</title>
+
+		<script type="text/javascript">
+			function LerPortas(){
+			
+				var request = new XMLHttpRequest();
+				
+				request.onreadystatechange = function(){
+				
+					if(this.readyState == 4){
+					
+						if(this.status == 200){
+						
+							if(this.responseText != null){
+					
+								var dados = this.responseText.split('|');
+
+								if(dados.length > 2){
+
+									if(dados[0] == 0){
+										document.getElementById("LedG").className = "botaoDesligado";
+										document.getElementById("LedGTexto").innerHTML = "Ligar"
+										document.getElementById("LedGTexto").className = "textoL"
+									}else {
+										document.getElementById("LedG").className = "botaoLigado";
+										document.getElementById("LedGTexto").innerHTML = "Desligar"
+										document.getElementById("LedGTexto").className = "textoD"
+									}
+									
+									if(dados[1] == 0){
+										document.getElementById("LedY").className = "botaoDesligado";
+										document.getElementById("LedYTexto").innerHTML = "Ligar"
+										document.getElementById("LedYTexto").className = "textoL"
+									}else {
+										document.getElementById("LedY").className = "botaoLigado";
+										document.getElementById("LedYTexto").innerHTML = "Desligar"
+										document.getElementById("LedYTexto").className = "textoD"
+									}
+									
+									if(dados[2] == 0){
+										document.getElementById("LedR").className = "botaoDesligado";
+										document.getElementById("LedRTexto").innerHTML = "Ligar"
+										document.getElementById("LedRTexto").className = "textoL"
+									}else {
+										
+										document.getElementById("LedR").className = "botaoLigado";
+										document.getElementById("LedRTexto").innerHTML = "Desligar"
+										document.getElementById("LedRTexto").className = "textoD"
+									}
+									
+								}
+								
+							}
+							
+						}
+						
+					}
+					
+				}
+				
+				request.open("GET", "ajax_LerPortas", true);
+				request.send(null);
+				setTimeout('LerPortas()', 1000);
+				
+			}
+			
+			function AtualizaPorta(id, pinLed, state){
+			
+				document.getElementById(id).setAttribute("onclick", "AtualizaPorta("+id+", " + pinLed+", " + (state == 0 ? 1 : 0) +");");
+				document.getElementById(id).onclick = function() {
+					AtualizaPorta(id, pinLed, (state == 0 ? 1 : 0));
+				};
+			
+				var request = new XMLHttpRequest();
+				
+				request.onreadystatechange = function() {
+					console.log(request.status);
+				}
+				
+				request.open("GET", "LED=" + pinLed + "_" + state, true);
+				request.send(null);
+			}
+			
+		</script>
+		
+		<style>
+		   .botaoLigado {
+				 width:200px;
+				 height:100px;
+				 background-color:#228B22;
+				 cursor: pointer;
+				 float:left;
+				 margin-left: 5px;
+		   }
+
+		   .botaoDesligado {
+				 width:200px;
+				 height:100px;
+				 background-color:#D3D3D3;
+				 cursor: pointer;
+				 float:left;
+				 margin-left: 5px;
+		   }
+		   
+		   .container {
+				width:210px;
+				height:360px;
+				border:solid;
+				margin-left:40%;
+				margin-top:10%;
+				background-color: white;
+		   }
+		   
+		   .title {
+			    margin-left: 80px;
+				font-weight: 700;
+		   }
+		   
+		   .textoL {
+				width:80px;
+				height:40px;
+				font-size:34px;
+				margin-left:60px;
+				margin-top:30px;
+		   }
+		   
+		   .textoD {
+				width:125px;
+				height:40px;
+				font-size:34px;
+				margin-left:36px;
+				margin-top:30px;
+		   }
+		   
+		</style>
+	</head>
+	
+	<body onload="LerPortas();">
+		
+		<div class="container">	
+
+			<div>
+				<span class="title">Led 1<span>
+				</br>
+				<div id="LedG" class="botaoLigado" onclick="AtualizaPorta('LedG', 7, 1)">				
+					<div id="LedGTexto" class="textoL">Ligar</div>
+				</div>
+			</div>
+
+			<div>
+				<span class="title">Led 2<span>
+				</br>
+				<div id="LedY" class="botaoDesligado" onclick="AtualizaPorta('LedY', 6, 1)">
+					<div id="LedYTexto" class="textoL">Ligar</div>
+				</div>
+			</div>
+
+			<div>
+				<span class="title">Led 3<span>
+				</br>
+				<div id="LedR" class="botaoDesligado" onclick="AtualizaPorta('LedR', 5, 1)">
+					<div id="LedRTexto" class="textoL">Ligar</div>
+				</div>
+				</div>	
+		
+		</div>
+			
+	</body>
+
+</html>
